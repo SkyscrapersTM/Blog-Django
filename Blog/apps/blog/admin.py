@@ -1,9 +1,17 @@
 from django.contrib import admin
 
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from apps.blog.models import Category, Author
 
+class CategoryResource(resources.ModelResource):
+    '''
+        allow export and import data from admin panel
+    '''
+    class Meta:
+        model = Category
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
     '''
          custom Admin panel
     '''
@@ -13,8 +21,17 @@ class CategoryAdmin(admin.ModelAdmin):
     # indicates the attributes to display in the admin panel
     list_display = ('name', 'status', 'create_at')
 
+    # Display a button witch allows you to export and import data
+    resource_class = CategoryResource
 
-class AuthorAdmin(admin.ModelAdmin):
+class AuthorResource(resources.ModelResource):
+    '''
+        allow export and import data from admin panel
+    '''
+    class Meta:
+        model = Author
+
+class AuthorAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
     '''
         Custom Admin panel
     '''
@@ -23,6 +40,9 @@ class AuthorAdmin(admin.ModelAdmin):
     
     #indicates the attributes to display in the admin panel
     list_display = ('name','lastName', 'gmail', 'status', 'create_at',)
+
+    # Display a button witch allows you to export and import data
+    resource_class = AuthorResource
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Author, AuthorAdmin)

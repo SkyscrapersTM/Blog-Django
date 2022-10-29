@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from apps.blog.models import Category, Author
+from apps.blog.models import Category, Author, Post
 
 class CategoryResource(resources.ModelResource):
     '''
@@ -46,3 +46,4 @@ class AuthorAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Author, AuthorAdmin)
+admin.site.register(Post)

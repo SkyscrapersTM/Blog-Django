@@ -1,6 +1,5 @@
-from email.policy import default
 from django.db import models
-
+from ckeditor.fields import RichTextField
 
 class Category(models.Model):
 
@@ -67,4 +66,45 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.lastName}, {self.name}"
-        
+
+
+class Post(models.Model):
+
+    id = models.AutoField(primary_key=True)
+
+    # indicates the content of the post
+    title = models.CharField('Title', max_length=90, blank=False, null=False)
+
+    # indicates the path to access to the post
+    slug = models.CharField('Slug', max_length=100, blank=False, null=False)
+
+    # indicate the descrition about the post
+    # https://pypi.org/project/django-ckeditor/
+    # RichTextField() allows to custom the description about the postRichTextField
+    description = RichTextField()
+
+    # contain the featured image
+    # URLField allows to render images
+    image = models.URLField(max_length=255, blank=False, null=False)
+
+    # foreign: Author
+    author = models.ForeignKey(
+        Author, verbose_name='Author', on_delete=models.CASCADE)
+
+    #foreign: Category
+    category = models.ForeignKey(
+        Category, verbose_name='Category', on_delete=models.CASCADE)
+
+    #  indicates if the status of the post is active or not
+    status = models.BooleanField('Post On/Off', default=True)
+
+    # indicates the creation of the post
+    create_at = models.DateField(
+        'Creation Date', auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
+
+    def __str__(self):
+        return self.title

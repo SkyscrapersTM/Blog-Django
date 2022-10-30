@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from ckeditor.fields import RichTextField
 
@@ -77,6 +78,9 @@ class Post(models.Model):
 
     # indicates the path to access to the post
     slug = models.CharField('Slug', max_length=100, blank=False, null=False)
+
+    # indicates the short description about the post
+    extract = models.CharField('Extract', max_length=100, blank=False, null=False)
 
     # indicate the descrition about the post
     # https://pypi.org/project/django-ckeditor/

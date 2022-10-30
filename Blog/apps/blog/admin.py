@@ -4,6 +4,7 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from apps.blog.models import Category, Author, Post
 
+
 class CategoryResource(resources.ModelResource):
     '''
         allow export and import data from admin panel
@@ -11,7 +12,8 @@ class CategoryResource(resources.ModelResource):
     class Meta:
         model = Category
 
-class CategoryAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
+
+class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     '''
          custom Admin panel
     '''
@@ -24,6 +26,7 @@ class CategoryAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
     # Display a button witch allows you to export and import data
     resource_class = CategoryResource
 
+
 class AuthorResource(resources.ModelResource):
     '''
         allow export and import data from admin panel
@@ -31,19 +34,41 @@ class AuthorResource(resources.ModelResource):
     class Meta:
         model = Author
 
-class AuthorAdmin(ImportExportModelAdmin ,admin.ModelAdmin):
+
+class AuthorAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    '''
+        Custom Admin panel
+    '''
+    # add search bar
+    search_fields = ['title']
+
+    # indicates the attributes to display in the admin panel
+    list_display = ('name', 'lastName', 'gmail', 'status', 'create_at',)
+
+    # Display a button witch allows you to export and import data
+    resource_class = AuthorResource
+
+class PostResource(resources.ModelResource):
+    '''
+        allow export and import data from admin panel
+    '''
+    class Meta:
+        model = Post
+
+class PostAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     '''
         Custom Admin panel
     '''
     # add search bar
     search_fields = ['name', 'lastName', 'email']
-    
-    #indicates the attributes to display in the admin panel
-    list_display = ('name','lastName', 'gmail', 'status', 'create_at',)
+
+    # indicates the attributes to display in the admin panel
+    list_display = ('title', 'category','author', 'create_at',)
 
     # Display a button witch allows you to export and import data
-    resource_class = AuthorResource
+    resource_class = PostResource
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Author, AuthorAdmin)
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)

@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 from apps.blog.models import Category, Post
 
@@ -21,6 +22,15 @@ def home(request):
             Q(title__icontains=queryset) |
             Q(extract__icontains=queryset)
         ).distinct()
+
+    # Add Pagination
+    paginator = Paginator(posts, 2)
+    
+    # indicate the number of page
+    page = request.GET.get('page')
+
+    # create a new posts list with pagination
+    posts = paginator.get_page(page)
 
     return render(request, 'index.html', {'posts': posts})
 
@@ -54,6 +64,16 @@ def general(request):
             status=True,
             category=Category.objects.get(name__iexact='general')
         ).distinct()
+    
+    # Add Pagination
+    paginator = Paginator(posts, 2)
+    
+    # indicate the number of page
+    page = request.GET.get('page')
+
+    # create a new posts list with pagination
+    posts = paginator.get_page(page)
+
     return render(request, 'general.html', {'posts': posts})
 
 
@@ -101,6 +121,15 @@ def tutorials(request):
             category=Category.objects.get(name__iexact='Tutorials')
         ).distinct()
 
+    # Add Pagination
+    paginator = Paginator(posts, 2)
+    
+    # indicate the number of page
+    page = request.GET.get('page')
+
+    # create a new posts list with pagination
+    posts = paginator.get_page(page)
+
     return render(request, 'tutorials.html', {'posts': posts})
 
 
@@ -125,6 +154,15 @@ def tecnology(request):
             category=Category.objects.get(name__iexact='Tecnology')
         ).distinct()
 
+    # Add Pagination
+    paginator = Paginator(posts, 2)
+    
+    # indicate the number of page
+    page = request.GET.get('page')
+
+    # create a new posts list with pagination
+    posts = paginator.get_page(page)
+
     return render(request, 'tecnology.html', {'posts': posts})
 
 
@@ -148,6 +186,15 @@ def videogames(request):
             status=True,
             category=Category.objects.get(name__iexact='VideoGames')
         ).distinct()
+
+    # Add Pagination
+    paginator = Paginator(posts, 2)
+    
+    # indicate the number of page
+    page = request.GET.get('page')
+
+    # create a new posts list with pagination
+    posts = paginator.get_page(page)
 
     return render(request, 'videogames.html', {'posts': posts})
 
